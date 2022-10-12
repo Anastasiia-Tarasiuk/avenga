@@ -9,41 +9,62 @@
 </head>
 <body>
     <div class="slider-container">
-        <a class="prev-link" href="">
+        <button class="prev disabled" type="button">
             <svg class="prev-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="40">
                 <!-- use doesn't work for downloaded svg -->
                 <path
                     d="M0 256C0 397.4 114.6 512 256 512s256-114.6 256-256S397.4 0 256 0S0 114.6 0 256zM297 385c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l71-71L120 280c-13.3 0-24-10.7-24-24s10.7-24 24-24l214.1 0-71-71c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0L409 239c9.4 9.4 9.4 24.6 0 33.9L297 385z" />
             </svg>
-        </a>
-        <div class="slide-cotainer">
-            <p class="slide-number">1/3</p>
-            <div class="thumb">
-                <img class="slide-image" src="./images/angry-cat-one.jpg" alt="Angry cat">
-            </div>
-            <p class="slide-caption">Cat Tomas</p>
-        </div>
-        <div class="slide-cotainer">
-            <p class="slide-number">2/3</p>
-            <img class="slide-image" src="./images/angry-cat-two.jpg" alt="Angry cat">
-            <p class="slide-caption">Cat Angel</p>
-        </div>
-        <div class="slide-cotainer">
-            <p class="slide-number">3/3</p>
-            <img class="slide-image" src="./images/angry-cat-three.jpg" alt="Angry cat">
-            <p class="slide-caption">Cat Boris</p>
-        </div>        
-        <a class="next-link" href="">
+        </button>
+        <ul class="slide-list">
+            <li class="slide-item is-active">
+                <div class="thumb">
+                    <span class="slide-number"></span>
+                    <img class="slide-image" src="./images/angry-cat-one.jpg" alt="Angry cat">
+                    <p class="slide-caption">Cat Tomas</p>
+                </div>
+            </li>
+            <li class="slide-item">
+                <div class="thumb">
+                    <span class="slide-number"></span>
+                    <img class="slide-image" src="./images/angry-cat-two.jpg" alt="Angry cat">
+                    <p class="slide-caption">Cat Angel</p>
+                </div>
+            </li>
+            <li class="slide-item">
+                <div class="thumb">
+                    <span class="slide-number"></span>
+                    <img class="slide-image" src="./images/angry-cat-three.jpg" alt="Angry cat">
+                    <p class="slide-caption">Cat Boris</p>
+                </div>
+            </li>
+            <li class="slide-item">
+                <div class="thumb">
+                    <span class="slide-number"></span>
+                    <img class="slide-image" src="./images/angry-cat-four.jpg" alt="Angry cat">
+                    <p class="slide-caption">Cat Bob</p>
+                </div>
+            </li>
+            <li class="slide-item">
+                <div class="thumb">
+                    <span class="slide-number"></span>
+                    <img class="slide-image" src="./images/angry-cat-five.jpg" alt="Angry cat">
+                    <p class="slide-caption">Cat Paris</p>
+                </div>
+            </li>
+        </ul>
+        <button class="next" type="button">
             <svg class="next-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="40">
                 <path
                     d="M0 256C0 397.4 114.6 512 256 512s256-114.6 256-256S397.4 0 256 0S0 114.6 0 256zM297 385c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l71-71L120 280c-13.3 0-24-10.7-24-24s10.7-24 24-24l214.1 0-71-71c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0L409 239c9.4 9.4 9.4 24.6 0 33.9L297 385z" />
             </svg>
-        </a>
+        </button>
     </div>
     <div class="dots-container">
         <span class="dot">
-
+    
         </span>
     </div>
+    <script src="./index.js"></script>
 </body>
 </html>
