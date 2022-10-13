@@ -10,53 +10,57 @@ prevButtonEl.addEventListener('click', onPrevButtonClick);
 slideListEl.addEventListener('click', onImageClick);
 
 const itemArr = [...itemEls];
+
+// default values
 let index = 0;
+const slidesArrayLength = itemArr.length;
+slideNumberEls[index].textContent = `${index + 1}/${slidesArrayLength}`;
 
-// adds slide numbers
-let num = 1;
-const total = itemArr.length;
-
-slideNumberEls[index].textContent = `${index + 1}/${total}`;
-
-// adds dots
-itemArr.map(el => {
-    const dot = document.createElement("div");
-    dot.classList.add('dot');
-    dotContainerEl.append(dot);
-})
-
-const dotEls = document.querySelectorAll('.dot');
+let dotEls = null;
+renderDots(itemArr);
 dotEls[index].style.backgroundColor = "black";
 
-function onNextButtonClick() {
-    
-    moveSlides(1);
+// functions
+function renderDots(arr) {
+    arr.map(el => {
+        const dot = document.createElement("div");
+        dot.classList.add('dot');
+        dotContainerEl.append(dot);
+    })
 
-    
-    // dotEls[num].style.backgroundColor = "black";
-        
-    // num += 1;
-    // slideNumberEls[num - 1].textContent = `${num}/${total}`;
-    
-    // for (let index = 0; index < itemArr.length; index += 1) {
-    //     dotEls[index].style.backgroundColor = "blue";
-    //     prevButtonEl.classList.remove('disabled');
-        
-    //     const current = itemArr[index];
-    //     const next = itemArr[index + 1];        
-        
-    //     if (index === itemArr.length - 2) {
-    //         nextButtonEl.classList.add('disabled');
-    //     }
-        
-    //     if (itemArr[index].className.includes('is-active') && index !== itemArr.length - 1) {
-    //         next.classList.add('is-active');
-    //         current.classList.remove('is-active');
-    //         return;
-    //     }    
-    // }
+    dotEls = document.querySelectorAll('.dot');
 }
 
+function changeSliderNumbers(i, param) {
+    slideNumberEls[i].textContent = `${i + param}/${slidesArrayLength}`;
+
+}
+
+function changeDotColor(i, param) {
+    if (i >= slidesArrayLength) {
+        i = 0;
+    }
+
+    if (i <= 0) {
+        param = 1;
+        dotEls[slidesArrayLength - 1].style.backgroundColor = "blue";
+    }
+
+    dotEls[i].style.backgroundColor = "black";
+    
+    if (param === 1 && i === slidesArrayLength - 1) {
+        i = 0;
+        dotEls[i].style.backgroundColor = "blue";
+    }
+    
+    dotEls[i + param].style.backgroundColor = "blue";  
+}
+
+function onNextButtonClick() {
+    moveSlides(1);
+    changeDotColor(index, -1);
+    changeSliderNumbers(index, 1)
+}
 
 function moveSlides(param) {
     const current = itemArr[index];
@@ -64,11 +68,11 @@ function moveSlides(param) {
 
     index = index + param;
 
-    if (index === total) {
+    if (index === slidesArrayLength) {
         index = 0;
         next = itemArr[index]
     } else if (index < 0) {
-        index = total - 1;
+        index = slidesArrayLength - 1;
         next = itemArr[index]
     }
    
@@ -76,30 +80,10 @@ function moveSlides(param) {
     current.classList.remove('is-active');
 } 
 
-
 function onPrevButtonClick() {
-
-moveSlides(-1);
-
-    // for (let index = itemArr.length - 1; index > 0; index -= 1) {
-    //     dotEls[index].style.backgroundColor = "blue";
-    //     dotEls[index - 1].style.backgroundColor = "black";
-
-    //     nextButtonEl.classList.remove('disabled');
-        
-    //     const current = itemArr[index];
-    //     const prev = itemArr[index - 1];
-
-    //     if (index === 1) {
-    //         prevButtonEl.classList.add('disabled');
-    //     }
-
-    //     if (itemArr[index].className.includes('is-active')) {
-    //         prev.classList.add('is-active');
-    //         current.classList.remove('is-active');
-    //         return;
-    //     }    
-    // }
+    moveSlides(-1);
+    changeDotColor(index, 1);
+    changeSliderNumbers(index, 1)
 }
 
 function onImageClick(e) {
