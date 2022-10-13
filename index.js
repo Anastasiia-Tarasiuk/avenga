@@ -26,7 +26,7 @@ function onDotClick(e) {
     const chosenDot = e.target;
     const indexOfCosenDot = [...chosenDot.parentElement.children].indexOf(chosenDot);
     
-    dotEls[index].style.backgroundColor = "blue";
+    dotEls[index].style.backgroundColor = "transparent";
 
     const current = itemArr[index];
     index = indexOfCosenDot;    
@@ -53,7 +53,6 @@ function renderDots(arr) {
 
 function changeSliderNumbers(i, param) {
     slideNumberEls[i].textContent = `${i + param}/${slidesArrayLength}`;
-
 }
 
 function changeDotColor(i, param) {
@@ -63,17 +62,17 @@ function changeDotColor(i, param) {
 
     if (i <= 0) {
         param = 1;
-        dotEls[slidesArrayLength - 1].style.backgroundColor = "blue";
+        dotEls[slidesArrayLength - 1].style.backgroundColor = "transparent";
     }
 
     dotEls[i].style.backgroundColor = "black";
     
     if (param === 1 && i === slidesArrayLength - 1) {
         i = 0;
-        dotEls[i].style.backgroundColor = "blue";
+        dotEls[i].style.backgroundColor = "transparent";
     }
     
-    dotEls[i + param].style.backgroundColor = "blue";  
+    dotEls[i + param].style.backgroundColor = "transparent";  
 }
 
 function onNextButtonClick() {

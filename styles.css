@@ -1,5 +1,5 @@
 /* reset */
-ul, 
+ul,
 p,
 button {
     padding: 0;
@@ -19,14 +19,14 @@ button {
     fill: white;
 }
 
-.prev-icon:hover, 
+.prev-icon:hover,
 .prev-icon:focus,
 .next-icon:hover,
 .next-icon:focus {
-    fill: blue
+    fill: black
 }
 
-.prev, 
+.prev,
 .next {
     position: absolute;
     top: 50%;
@@ -47,10 +47,10 @@ button {
 
 .slide-item {
     position: absolute;
-    display: none;    
+    display: none;
 }
 
-.slide-number{
+.slide-number {
     position: absolute;
 }
 
@@ -76,7 +76,7 @@ button {
 .slide-caption {
     bottom: 0;
     left: 50%;
-    transform: translate(-50%, -50%);  
+    transform: translate(-50%, -50%);
     font-size: 24px;
     color: white;
 }
@@ -87,10 +87,15 @@ button {
 }
 
 .dot {
-    width: 24px;
-    height: 24px;
-    background-color: blue;
+    width: 14px;
+    height: 14px;
+    background-color: transparent;
+    border: 1px solid black;
     border-radius: 50%;
+}
+
+.dot:not(:last-child) {
+    margin-right: 7px;
 }
 
 .show-image {
@@ -105,8 +110,4 @@ button {
 
 .is-active {
     display: block;
-}
-
-.colored {
-    background-color: red;
 }
