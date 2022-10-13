@@ -9,9 +9,9 @@ button {
 /* styles */
 .slider-container {
     position: relative;
-    width: 100vw;
-    height: 300px;
-    margin-bottom: 14px;
+    width: 800px;
+    height: 600px;
+    margin: 0 auto 14px;
 }
 
 .prev-icon,
@@ -23,46 +23,59 @@ button {
 .prev-icon:focus,
 .next-icon:hover,
 .next-icon:focus {
-    fill: black
+    fill: black;
+    background-color: white;
 }
 
 .prev,
 .next {
     position: absolute;
+    width: 42px;
+    height: 42px;
     top: 50%;
     transform: translate(-50%, -50%);
     z-index: 1;
-    background-color: transparent;
     border: 0;
+    background-color: black;
+    border-radius: 50%;
 }
 
 .prev {
     transform: translate(-50%, -50%) rotate(180deg);
-    left: 30px;
+    left: 40px;
 }
 
 .next {
     right: 0;
 }
 
+.prev-icon,
+.next-icon {
+    border: 1px solid black ;
+    border-radius: 50%;
+}
+
 .slide-item {
-    position: absolute;
     display: none;
 }
 
-.slide-number {
-    position: absolute;
+.image-container {
+    /* position: absolute; */
+    width: auto;
+    height: auto;
+    /* width: 100%;
+    height: 100%; */
 }
 
-.thumb {
-    width: 100vw;
-    height: 300px;
-}
 
 .slide-image {
     display: block;
-    height: 100%;
-    width: 100%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    max-height: 100%;
+    max-width: 100%;
     object-fit: cover;
 }
 
@@ -70,15 +83,19 @@ button {
 .slide-caption {
     position: absolute;
     font-size: 24px;
-    color: white;
+    color: red;
 }
 
 .slide-caption {
-    bottom: 0;
+    bottom: 10%;
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 24px;
-    color: white;
+    z-index: 2;
+}
+
+.slide-number {
+    top: 20%
 }
 
 .dots-container {
@@ -96,16 +113,6 @@ button {
 
 .dot:not(:last-child) {
     margin-right: 7px;
-}
-
-.show-image {
-    z-index: 2;
-    position: absolute;
-    height: 100vh;
-}
-
-.disabled {
-    display: none;
 }
 
 .is-active {

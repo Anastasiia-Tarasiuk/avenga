@@ -7,7 +7,6 @@ const dotContainerEl = document.querySelector('.dots-container');
 
 nextButtonEl.addEventListener('click', onNextButtonClick);
 prevButtonEl.addEventListener('click', onPrevButtonClick);
-slideListEl.addEventListener('click', onImageClick);
 dotContainerEl.addEventListener('click', onDotClick);
 
 const itemArr = [...itemEls];
@@ -104,15 +103,4 @@ function moveSlides(param) {
     next.classList.add('is-active');
     current.classList.remove('is-active');
 } 
-
-function onImageClick(e) {
-    const imageEl = e.target;
-
-    if (imageEl.className.includes('show-image')) {
-        imageEl.classList.remove('show-image');
-        return;
-    }
-
-    imageEl.classList.add('show-image');
-}
 
