@@ -8,6 +8,7 @@ const dotContainerEl = document.querySelector('.dots-container');
 nextButtonEl.addEventListener('click', onNextButtonClick);
 prevButtonEl.addEventListener('click', onPrevButtonClick);
 slideListEl.addEventListener('click', onImageClick);
+dotContainerEl.addEventListener('click', onDotClick);
 
 const itemArr = [...itemEls];
 
@@ -21,6 +22,23 @@ renderDots(itemArr);
 dotEls[index].style.backgroundColor = "black";
 
 // functions
+function onDotClick(e) {
+    const chosenDot = e.target;
+    const indexOfCosenDot = [...chosenDot.parentElement.children].indexOf(chosenDot);
+    
+    dotEls[index].style.backgroundColor = "blue";
+    
+    const current = itemArr[index];
+    index = indexOfCosenDot;    
+    let next = itemArr[indexOfCosenDot];
+  
+    next.classList.add('is-active');
+    current.classList.remove('is-active');
+
+    changeSliderNumbers(index, 1);
+    dotEls[index].style.backgroundColor = "black";
+}
+
 function renderDots(arr) {
     arr.map(el => {
         const dot = document.createElement("div");
@@ -28,7 +46,7 @@ function renderDots(arr) {
         dotContainerEl.append(dot);
     })
 
-    dotEls = document.querySelectorAll('.dot');
+    dotEls = [...document.querySelectorAll('.dot')];
 }
 
 function changeSliderNumbers(i, param) {
@@ -62,6 +80,12 @@ function onNextButtonClick() {
     changeSliderNumbers(index, 1)
 }
 
+function onPrevButtonClick() {
+    moveSlides(-1);
+    changeDotColor(index, 1);
+    changeSliderNumbers(index, 1)
+}
+
 function moveSlides(param) {
     const current = itemArr[index];
     let next = itemArr[index + param];
@@ -79,12 +103,6 @@ function moveSlides(param) {
     next.classList.add('is-active');
     current.classList.remove('is-active');
 } 
-
-function onPrevButtonClick() {
-    moveSlides(-1);
-    changeDotColor(index, 1);
-    changeSliderNumbers(index, 1)
-}
 
 function onImageClick(e) {
     const imageEl = e.target;
