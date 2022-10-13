@@ -27,13 +27,15 @@ function onDotClick(e) {
     const indexOfCosenDot = [...chosenDot.parentElement.children].indexOf(chosenDot);
     
     dotEls[index].style.backgroundColor = "blue";
-    
+
     const current = itemArr[index];
     index = indexOfCosenDot;    
     let next = itemArr[indexOfCosenDot];
   
-    next.classList.add('is-active');
-    current.classList.remove('is-active');
+    if (current !== next) {
+        next.classList.add('is-active');
+        current.classList.remove('is-active');
+    }
 
     changeSliderNumbers(index, 1);
     dotEls[index].style.backgroundColor = "black";
