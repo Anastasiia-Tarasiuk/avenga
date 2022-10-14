@@ -8,6 +8,7 @@ const dotContainerEl = document.querySelector('.dots-container');
 nextButtonEl.addEventListener('click', onNextButtonClick);
 prevButtonEl.addEventListener('click', onPrevButtonClick);
 dotContainerEl.addEventListener('click', onDotClick);
+document.addEventListener("keydown", onKeyPress);
 
 const itemArr = [...itemEls];
 
@@ -104,3 +105,12 @@ function moveSlides(param) {
     current.classList.remove('is-active');
 } 
 
+function onKeyPress(e) {
+    if (e.code === 'ArrowRight') {
+        onNextButtonClick();
+    }
+
+    if (e.code === 'ArrowLeft') {
+        onPrevButtonClick();
+    }
+}
