@@ -6,6 +6,15 @@ button {
     margin: 0;
 }
 
+/* variables */
+:root {
+    --color: white;
+    --accent-color: black;
+
+    --cubic: cubic-bezier(0.4, 0, 0.2, 1);
+    --duration: 250ms;
+}
+
 /* styles */
 .slider-container {
     position: absolute;
@@ -19,15 +28,18 @@ button {
 
 .prev-icon,
 .next-icon {
-    fill: white;
+    border: 1px solid var(--accent-color);
+    border-radius: 50%;
+    fill: var(--color);
+    transition: fill var(--duration) var(--cubic);
 }
 
 .prev-icon:hover,
 .prev-icon:focus,
 .next-icon:hover,
 .next-icon:focus {
-    fill: black;
-    background-color: white;
+    fill: var(--accent-color);
+    background-color: var(--color);
 }
 
 .prev,
@@ -39,8 +51,10 @@ button {
     transform: translate(-50%, -50%);
     z-index: 1;
     border: 0;
-    background-color: black;
+    background-color: var(--accent-color);
     border-radius: 50%;
+    cursor: pointer;
+    transition: background-color var(--duration) var(--cubic);
 }
 
 .prev {
@@ -52,11 +66,6 @@ button {
     right: 0;
 }
 
-.prev-icon,
-.next-icon {
-    border: 1px solid black ;
-    border-radius: 50%;
-}
 
 .slide-item {
     display: none;
@@ -76,7 +85,7 @@ button {
 .slide-caption {
     position: absolute;
     font-size: 24px;
-    color: white;
+    color: var(--accent-color);
 }
 
 .slide-caption {
@@ -102,8 +111,15 @@ button {
     width: 14px;
     height: 14px;
     background-color: transparent;
-    border: 1px solid black;
+    border: 1px solid var(--accent-color);
     border-radius: 50%;
+    cursor: pointer;
+    transition: background-color var(--duration) var(--cubic);
+}
+
+.dot:hover,
+.dot:focus {
+    background-color: var(--accent-color);
 }
 
 .dot:not(:last-child) {
@@ -112,4 +128,14 @@ button {
 
 .is-active {
     display: block;
+}
+
+.animation {
+    animation-name: fade;
+    animation-duration: 1.5s;
+}
+
+@keyframes fade {
+    from {opacity: 0.4}
+    to {opacity: 1}
 }
