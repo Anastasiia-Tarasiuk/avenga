@@ -8,7 +8,7 @@ const dotContainerEl = document.querySelector('.dots-container');
 nextButtonEl.addEventListener('click', onNextButtonClick);
 prevButtonEl.addEventListener('click', onPrevButtonClick);
 dotContainerEl.addEventListener('click', onDotClick);
-document.addEventListener("keydown", onKeyPress);
+document.addEventListener('keydown', onKeyPress);
 
 const itemArr = [...itemEls];
 
@@ -19,18 +19,19 @@ slideNumberEls[index].textContent = `${index + 1}/${slidesArrayLength}`;
 
 let dotEls = null;
 renderDots(itemArr);
-dotEls[index].style.backgroundColor = "black";
+dotEls[index].classList.add('addBlackBgColor');
+
 
 // functions
 function onDotClick(e) {
     const chosenDot = e.target;
-    const indexOfCosenDot = [...chosenDot.parentElement.children].indexOf(chosenDot);
-    
-    dotEls[index].style.backgroundColor = "transparent";
+    const indexOfChosenDot = [...chosenDot.parentElement.children].indexOf(chosenDot);
+
+    dotEls[index].classList.remove('addBlackBgColor');
 
     const current = itemArr[index];
-    index = indexOfCosenDot;    
-    let next = itemArr[indexOfCosenDot];
+    index = indexOfChosenDot;    
+    let next = itemArr[indexOfChosenDot];
   
     if (current !== next) {
         next.classList.add('is-active');
@@ -38,7 +39,7 @@ function onDotClick(e) {
     }
 
     changeSliderNumbers(index, 1);
-    dotEls[index].style.backgroundColor = "black";
+    dotEls[index].classList.add('addBlackBgColor');
 }
 
 function renderDots(arr) {
@@ -62,29 +63,29 @@ function changeDotColor(i, param) {
 
     if (i <= 0) {
         param = 1;
-        dotEls[slidesArrayLength - 1].style.backgroundColor = "transparent";
+        dotEls[slidesArrayLength - 1].classList.remove('addBlackBgColor');
     }
 
-    dotEls[i].style.backgroundColor = "black";
+    dotEls[i].classList.add('addBlackBgColor');
     
     if (param === 1 && i === slidesArrayLength - 1) {
         i = 0;
-        dotEls[i].style.backgroundColor = "transparent";
+        dotEls[i].classList.remove('addBlackBgColor');
     }
     
-    dotEls[i + param].style.backgroundColor = "transparent";  
+    dotEls[i + param].classList.remove('addBlackBgColor');
 }
 
 function onNextButtonClick() {
     moveSlides(1);
     changeDotColor(index, -1);
-    changeSliderNumbers(index, 1)
+    changeSliderNumbers(index, 1);
 }
 
 function onPrevButtonClick() {
     moveSlides(-1);
     changeDotColor(index, 1);
-    changeSliderNumbers(index, 1)
+    changeSliderNumbers(index, 1);
 }
 
 function moveSlides(param) {
@@ -95,11 +96,11 @@ function moveSlides(param) {
 
     if (index === slidesArrayLength) {
         index = 0;
-        next = itemArr[index]
     } else if (index < 0) {
         index = slidesArrayLength - 1;
-        next = itemArr[index]
     }
+
+    next = itemArr[index];
    
     next.classList.add('is-active');
     current.classList.remove('is-active');

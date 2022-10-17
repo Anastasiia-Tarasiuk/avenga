@@ -102,15 +102,16 @@ button {
 }
 
 .dots-container {
-    display: flex;
-    justify-content: center;
-    margin: 14px auto 0;
+    position: absolute;
+    transform: translate(-50%, 0) rotate(-90deg);
+    bottom: 0;
+    left: 50%;
 }
 
 .dot {
     width: 14px;
     height: 14px;
-    background-color: transparent;
+    background-color: var(--color);
     border: 1px solid var(--accent-color);
     border-radius: 50%;
     cursor: pointer;
@@ -122,12 +123,12 @@ button {
     background-color: var(--accent-color);
 }
 
-.dot:not(:last-child) {
-    margin-right: 7px;
-}
-
 .is-active {
     display: block;
+}
+
+.addBlackBgColor {
+    background: var(--accent-color);
 }
 
 .animation {
