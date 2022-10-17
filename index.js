@@ -20,8 +20,20 @@ slideNumberEls[globalIndex].textContent = `${globalIndex + 1}/${slidesArrayLengt
 let dotEls = null;
 renderDots(itemArr);
 dotEls[globalIndex].classList.add('addDotBgColor');
+itemArr[globalIndex].classList.add('isActiveSlide');
 
 // functions
+
+function onKeyPress(e) {
+    if (e.code === 'ArrowRight') {
+        onNextButtonClick();
+    }
+
+    if (e.code === 'ArrowLeft') {
+        onPrevButtonClick();
+    }
+}
+
 function onDotClick(e) {
     const chosenDot = e.target;
     const indexOfChosenDot = [...chosenDot.parentElement.children].indexOf(chosenDot);
@@ -29,9 +41,9 @@ function onDotClick(e) {
     dotEls[globalIndex].classList.remove('addDotBgColor');
 
     const current = itemArr[globalIndex];
-    globalIndex = indexOfChosenDot;    
+    globalIndex = indexOfChosenDot;
     let next = itemArr[indexOfChosenDot];
-  
+
     if (current !== next) {
         next.classList.add('isActiveSlide');
         current.classList.remove('isActiveSlide');
@@ -61,13 +73,13 @@ function changeDotColor(isRight) {
 
     let nextStep = isRight ? 1 : -1;
     let next = dotEls[globalIndex + nextStep];
-    
+
     if (globalIndex === (slidesArrayLength - 1)) {
         next = dotEls[0];
     }
     console.log(globalIndex)
     if (globalIndex === 0) {
-        next =  dotEls[slidesArrayLength - 1];
+        next = dotEls[slidesArrayLength - 1];
     }
 
     current.classList.remove('addDotBgColor');
@@ -77,54 +89,23 @@ function changeDotColor(isRight) {
 function onButtonClick(e) {
     const directionAttributeValue = JSON.parse(e.currentTarget.getAttribute('data-direction'));
     let nextStep = directionAttributeValue ? 1 : -1;
+    let prevIndex = globalIndex;
 
     globalIndex = globalIndex + nextStep;
 
     if (globalIndex > (slidesArrayLength - 1)) {
         globalIndex = 0;
     }
-    
+
     if (globalIndex < 0) {
         globalIndex = slidesArrayLength - 1;
-    } 
+    }
 
-    moveSlides(directionAttributeValue);
-   // changeDotColor(directionAttributeValue);
-    
-    
-
-   
-    
-    
+    moveSlides(prevIndex);
+    // changeDotColor(directionAttributeValue);
 }
 
-function moveSlides(isRight) {
-    let prev = itemArr[globalIndex + !isRight ? 1 : -1];
-    
-    let nextStep = isRight ? 1 : -1;
-    let curr = itemArr[globalIndex];
-    
-    if (globalIndex === 0) {
-        itemArr[slidesArrayLength - 1].classList.remove('isActiveSlide');
-        prev = itemArr[0];
-    }
-    
-    if (globalIndex === (slidesArrayLength - 1) && !isRight) {
-        prev = itemArr[0]
-    }
-
-    prev.classList.remove('isActiveSlide');
-    curr.classList.add('isActiveSlide');
-
-} 
-
-function onKeyPress(e) {
-    if (e.code === 'ArrowRight') {
-        onNextButtonClick();
-    }
-
-    if (e.code === 'ArrowLeft') {
-        onPrevButtonClick();
-    }
+function moveSlides(prevIndex) {
+    itemArr[globalIndex].classList.add('isActiveSlide')
+    itemArr[prevIndex].classList.remove('isActiveSlide')
 }
-
