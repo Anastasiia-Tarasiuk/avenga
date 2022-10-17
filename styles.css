@@ -123,11 +123,11 @@ button {
     background-color: var(--accent-color);
 }
 
-.is-active {
+.isActiveSlide {
     display: block;
 }
 
-.addBlackBgColor {
+.addDotBgColor {
     background: var(--accent-color);
 }
 
