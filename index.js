@@ -1,4 +1,4 @@
-const itemEls = document.querySelectorAll('.slide-item');
+const slideEls = document.querySelectorAll('.slide-item');
 const nextButtonEl = document.querySelector('.next');
 const prevButtonEl = document.querySelector('.prev');
 const slideListEl = document.querySelector('.slide-list');
@@ -12,36 +12,36 @@ prevButtonEl.addEventListener('dblclick', disableDoubleClickOnButton);
 dotContainerEl.addEventListener('click', onDotClick);
 document.addEventListener('keydown', onArrowKeyPress);
 
-const itemArr = [...itemEls];
-
 // default values
-const slidesArrayLength = itemArr.length;
+const slidesArray = [...slideEls];
+const slidesArrayLength = slidesArray.length;
 let globalIndex = 0;
 let dotEls = null;
 
-renderDots(itemArr);
-slideNumberEls[globalIndex].textContent = `${globalIndex + 1}/${slidesArrayLength}`;
-dotEls[globalIndex].classList.add('addDotBgColor');
-itemArr[globalIndex].classList.add('isActiveSlide');
+renderDots(slidesArray);
+changeSliderNumbers();
+dotEls[globalIndex].classList.add('add-dot-bg-color');
+slidesArray[globalIndex].classList.add('is-active-slide');
 
 // functions
 function onDotClick(e) {
     const chosenDot = e.target;
     const indexOfChosenDot = [...chosenDot.parentElement.children].indexOf(chosenDot);
-    const current = itemArr[globalIndex];
-    let next = itemArr[indexOfChosenDot];
+    const current = slidesArray[globalIndex];
+    let next = slidesArray[indexOfChosenDot];
     
-    dotEls[globalIndex].classList.remove('addDotBgColor');
+    dotEls[globalIndex].classList.remove('add-dot-bg-color');
     
     globalIndex = indexOfChosenDot;
     
+    //doesn't allow switch classes on the same dot
     if (current !== next) {
-        next.classList.add('isActiveSlide');
-        current.classList.remove('isActiveSlide');
+        next.classList.add('is-active-slide');
+        current.classList.remove('is-active-slide');
     }
     
+    dotEls[globalIndex].classList.add('add-dot-bg-color');
     changeSliderNumbers();
-    dotEls[globalIndex].classList.add('addDotBgColor');
 }
 
 function renderDots(arr) {
@@ -51,7 +51,7 @@ function renderDots(arr) {
         dotContainerEl.append(dot);
     })
     
-    dotEls = [...document.querySelectorAll('.dot')];
+    dotEls = document.querySelectorAll('.dot');
 }
 
 function changeSliderNumbers() {
@@ -59,8 +59,8 @@ function changeSliderNumbers() {
 }
 
 function changeDotColor(prevIndex) {
-    dotEls[prevIndex].classList.remove('addDotBgColor');
-    dotEls[globalIndex].classList.add('addDotBgColor');
+    dotEls[prevIndex].classList.remove('add-dot-bg-color');
+    dotEls[globalIndex].classList.add('add-dot-bg-color');
 }
 
 function onButtonClick(e) {
@@ -69,7 +69,8 @@ function onButtonClick(e) {
     let prevIndex = globalIndex;
     
     globalIndex = globalIndex + nextStep;
-    
+
+    // check if globalIndex stays in possible range
     if (globalIndex > (slidesArrayLength - 1)) {
         globalIndex = 0;
     }
@@ -84,11 +85,12 @@ function onButtonClick(e) {
 }
 
 function moveSlides(prevIndex) {
-    itemArr[globalIndex].classList.add('isActiveSlide');
-    itemArr[prevIndex].classList.remove('isActiveSlide');
+    slidesArray[globalIndex].classList.add('is-active-slide');
+    slidesArray[prevIndex].classList.remove('is-active-slide');
 }
 
 function onArrowKeyPress(e) {
+    // checks if arrow key was pressed and invokes button events
     if (e.code === 'ArrowRight') {
         nextButtonEl.click();
     }
@@ -97,7 +99,6 @@ function onArrowKeyPress(e) {
         prevButtonEl.click();
     }
 }
-
 
 function disableDoubleClickOnButton(e) {
     e.stopPropagation();
