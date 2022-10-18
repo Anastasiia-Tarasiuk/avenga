@@ -1,24 +1,98 @@
 function SlidePlugin(options) {
     const defaultOptions = {
         container: ".container",
-        slidesClass: ".slide-item",
-        nextButton: ".next",
-        prevButton: ".prev"
+        slidesContainer: ".slide-list",
+        imagePath: [],
+        imageText: [],
+        imageCaption: [],
+        isDotsContainerShown: true,
     }
 
     options = { ...defaultOptions, ...options };
 
-    const _this = this;
-    const slidesArray = [...document.querySelectorAll('.slide-item')];
-    const slidesArrayLength = slidesArray.length;
+    // default values  
     let globalIndex = 0;
-    slidesArray[globalIndex].classList.add('is-active-slide');
+    const slidesArrayLength = options.imagePath.length;
+
+    // sets default value for imageText if its length is shorter than is needed
+    if (options.imageText.length < slidesArrayLength) {
+
+        for (let i = 0; i < slidesArrayLength; i += 1) {
+            if (!options.imageText[i]) {
+                options.imageText.push("default text");
+            }
+        }
+    }
+
+    // sets default value for imageCaption if its length is shorter than is needed
+    if (options.imageCaption.length < slidesArrayLength) {
+
+        for (let i = 0; i < slidesArrayLength; i += 1) {
+            if (!options.imageCaption[i]) {
+                options.imageCaption.push("default caption");
+            }
+        }
+    }
+    
+    this.renderSlide = function(index) {
+        const slidesContainer = document.querySelector(options.slidesContainer); 
+        
+        const slideItem  = document.createElement("li");
+        slideItem.classList.add("slide-item", "animation");
+        slidesContainer.appendChild(slideItem);
+        
+        const imageContainer = document.createElement("div");
+        imageContainer.classList.add("image-container");
+        
+        const slideImage = document.createElement("img");
+        slideImage.setAttribute("src", options.imagePath[index]);
+        slideImage.setAttribute("alt", options.imageText[index]);
+        slideImage.classList.add("slide-image");
+        
+        const slideNumber = document.createElement("span");
+        slideNumber.classList.add("slide-number");
+        
+        const slideCaption = document.createElement("p");
+        slideCaption.classList.add("slide-caption");
+        slideCaption.textContent = options.imageCaption[index];
+        
+        imageContainer.appendChild(slideImage);
+        imageContainer.appendChild(slideNumber);
+        imageContainer.appendChild(slideCaption);
+        
+        slideItem.appendChild(imageContainer);
+    }
+    
+    // does't render slides if nothing set to imagePath option
+    if (slidesArrayLength > 0) {
+        for (let i = 0; i < slidesArrayLength; i += 1) {
+            this.renderSlide(i);
+        }
+    }
+    
+    const slidesArray = [...document.querySelectorAll('.slide-item')];
+
+    // does't add a slides 'is-active-slide' class if nothing set to imagePath option
+    if (slidesArrayLength > 0) {
+        slidesArray[globalIndex].classList.add('is-active-slide'); 
+    }
+    
+    const _this = this;
+    const slideNumberEls = document.querySelectorAll('.slide-number');  
+    let dotEls = null;
 
     this.prepareControls = function () {
+        const mainContainer = document.querySelector(options.container);
         const nextButton = document.createElement("button");
         const prevButton = document.createElement("button"); 
-    
-        // create dots !
+
+        // renders dots container according to default options
+        if (options.isDotsContainerShown) {
+            const dotsContainer = document.createElement("div");  
+            dotsContainer.classList.add('dots-container');
+            mainContainer.appendChild(dotsContainer);
+            dotsContainer.addEventListener('click', _this.onDotClick);
+        }
 
         nextButton.classList.add('next');
         prevButton.classList.add('prev');
@@ -36,39 +110,43 @@ function SlidePlugin(options) {
                 <path
                     d="M0 256C0 397.4 114.6 512 256 512s256-114.6 256-256S397.4 0 256 0S0 114.6 0 256zM297 385c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l71-71L120 280c-13.3 0-24-10.7-24-24s10.7-24 24-24l214.1 0-71-71c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0L409 239c9.4 9.4 9.4 24.6 0 33.9L297 385z" />
             </svg>`
-        
-        let controlContainer = document.createElement("div");
-        controlContainer.appendChild(prevButton);
-        controlContainer.appendChild(nextButton);
-        
-        document.querySelector(options.container).appendChild(controlContainer);
+
+        mainContainer.appendChild(nextButton);
+        mainContainer.appendChild(prevButton);
 
         nextButton.addEventListener('click', _this.onButtonClick);
         prevButton.addEventListener('click', _this.onButtonClick);
+        nextButton.addEventListener('dblclick', _this.disableDoubleClickOnButton);
+        prevButton.addEventListener('dblclick', _this.disableDoubleClickOnButton);
     }
-
-    // this.controlSlidesVisibility = function () {
-    //     document.querySelectorAll(options.slidesClass).forEach(el => {
-    //         el.style.display = "none";
-    //     })
-    
-    //     slidesArray[globalIndex].classList.add('is-active-slide');
-    // }
 
     this.moveSlides = function(prevIndex) {
         slidesArray[globalIndex].classList.add('is-active-slide');
         slidesArray[prevIndex].classList.remove('is-active-slide');
     }
 
+    this.renderDots = function (arr) {
+        arr.map(el => {
+            const dot = document.createElement("div");
+            dot.classList.add('dot');
+            document.querySelector('.dots-container').appendChild(dot);
+        })
 
-    // this.changeSliderNumbers = function() {
-    //     slideNumberEls[globalIndex].textContent = `${1 + globalIndex}/${slidesArrayLength}`;
-    // }
+        dotEls = document.querySelectorAll('.dot');
+    }
 
-    // this.changeDotColor = function(prevIndex) {
-    //     dotEls[prevIndex].classList.remove('add-dot-bg-color');
-    //     dotEls[globalIndex].classList.add('add-dot-bg-color');
-    // }
+    this.changeSliderNumbers = function () {
+        // sets content only if slide exist
+        if (slidesArrayLength > 0) {
+            slideNumberEls[globalIndex].textContent = `${1 + globalIndex}/${slidesArrayLength}`;
+        }
+    }
+
+    this.changeDotColor = function(prevIndex) {
+        dotEls = document.querySelectorAll('.dot');
+        dotEls[prevIndex].classList.remove('add-dot-bg-color');
+        dotEls[globalIndex].classList.add('add-dot-bg-color');
+    }
 
     this.onButtonClick = function(e) {
         const directionAttributeValue = JSON.parse(e.currentTarget.getAttribute('data-direction'));
@@ -76,8 +154,6 @@ function SlidePlugin(options) {
         let prevIndex = globalIndex;
         
         globalIndex = globalIndex + nextStep;
-        
-        console.log(this)
         
         // checks if globalIndex stays in possible range
         if (globalIndex > (slidesArrayLength - 1)) {
@@ -88,16 +164,58 @@ function SlidePlugin(options) {
             globalIndex = slidesArrayLength - 1;
         }
 
-        // moveSlides();
-        // this.changeSliderNumbers();
-        // this.changeDotColor(prevIndex);
+        _this.moveSlides(prevIndex);
+        _this.changeSliderNumbers();
+        _this.changeDotColor(prevIndex);
     }
+
+    this.onDotClick = function(e) {
+        const chosenDot = e.target;
+        const indexOfChosenDot = [...chosenDot.parentElement.children].indexOf(chosenDot);
+        const current = slidesArray[globalIndex];
+        let next = slidesArray[indexOfChosenDot];
+        
+        dotEls[globalIndex].classList.remove('add-dot-bg-color');
+        
+        globalIndex = indexOfChosenDot;
+        
+        //doesn't allow switch classes on the same dot
+        if (current !== next) {
+            next.classList.add('is-active-slide');
+            current.classList.remove('is-active-slide');
+        }
+        
+        dotEls[globalIndex].classList.add('add-dot-bg-color');
+        _this.changeSliderNumbers();
+    }
+
     
+    this.onArrowKeyPress = function(e) {
+        // checks if arrow key was pressed and invokes button events
+        if (e.code === 'ArrowRight') {
+            document.querySelector(options.nextButton).click();
+        }
+        
+        if (e.code === 'ArrowLeft') {
+            document.querySelector(options.prevButton).click();
+        }
+    }
 
+    this.disableDoubleClickOnButton = function(e) {
+        e.stopPropagation();
+    }
 
-
+    // default values   
     this.prepareControls();
-    
-    // this.controlSlidesVisibility();
+    this.renderSlide()
 
+    if (options.isDotsContainerShown && slidesArrayLength > 0) {
+        this.renderDots(slidesArray);
+    }
+    if (options.isDotsContainerShown && slidesArrayLength > 0) {
+        dotEls[globalIndex].classList.add('add-dot-bg-color');
+    }
+
+    document.addEventListener('keydown', _this.onArrowKeyPress);
+    this.changeSliderNumbers();
 }

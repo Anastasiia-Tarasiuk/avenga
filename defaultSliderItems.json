@@ -1,0 +1,30 @@
+
+[
+    {
+        "imagePath": "./images/angry-cat-one.jpg",
+        "imageText": "Angry cat",
+        "imageTitle": "Cat Tomas"
+    },
+    {
+        "imagePath": "./images/angry-cat-two.jpg",
+        "imageText": "Angry cat",
+        "imageTitle": "Cat Angel"
+    },
+    {
+        "imagePath": "./images/angry-cat-three.jpg",
+        "imageText": "Angry cat",
+        "imageTitle": "Cat Boris"
+    },
+    {
+        "imagePath": "./images/angry-cat-four.jpg",
+        "imageText": "Angry cat",
+        "imageTitle": "Cat Bob"
+    },
+    {
+        "imagePath": "./images/angry-cat-five.jpg",
+        "imageText": "Angry cat",
+        "imageTitle": "Cat Paris"
+    }
+
+]
+
