@@ -8,48 +8,37 @@ const dotContainerEl = document.querySelector('.dots-container');
 nextButtonEl.addEventListener('click', onButtonClick);
 prevButtonEl.addEventListener('click', onButtonClick);
 dotContainerEl.addEventListener('click', onDotClick);
-document.addEventListener('keydown', onKeyPress);
+document.addEventListener('keydown', onArrowKeyPress);
 
 const itemArr = [...itemEls];
 
 // default values
-let globalIndex = 0;
 const slidesArrayLength = itemArr.length;
-slideNumberEls[globalIndex].textContent = `${globalIndex + 1}/${slidesArrayLength}`;
-
+let globalIndex = 0;
 let dotEls = null;
+
 renderDots(itemArr);
+slideNumberEls[globalIndex].textContent = `${globalIndex + 1}/${slidesArrayLength}`;
 dotEls[globalIndex].classList.add('addDotBgColor');
 itemArr[globalIndex].classList.add('isActiveSlide');
 
 // functions
-
-function onKeyPress(e) {
-    if (e.code === 'ArrowRight') {
-        onNextButtonClick();
-    }
-
-    if (e.code === 'ArrowLeft') {
-        onPrevButtonClick();
-    }
-}
-
 function onDotClick(e) {
     const chosenDot = e.target;
     const indexOfChosenDot = [...chosenDot.parentElement.children].indexOf(chosenDot);
-
+    
     dotEls[globalIndex].classList.remove('addDotBgColor');
-
+    
     const current = itemArr[globalIndex];
     globalIndex = indexOfChosenDot;
     let next = itemArr[indexOfChosenDot];
-
+    
     if (current !== next) {
         next.classList.add('isActiveSlide');
         current.classList.remove('isActiveSlide');
     }
-
-    changeSliderNumbers(globalIndex, 1);
+    
+    changeSliderNumbers();
     dotEls[globalIndex].classList.add('addDotBgColor');
 }
 
@@ -59,53 +48,51 @@ function renderDots(arr) {
         dot.classList.add('dot');
         dotContainerEl.append(dot);
     })
-
+    
     dotEls = [...document.querySelectorAll('.dot')];
 }
 
-function changeSliderNumbers(i, param) {
-    slideNumberEls[i].textContent = `${i + param}/${slidesArrayLength}`;
+function changeSliderNumbers() {
+    slideNumberEls[globalIndex].textContent = `${1 + globalIndex}/${slidesArrayLength}`;
 }
 
-function changeDotColor(isRight) {
-
-    const current = dotEls[globalIndex];
-
-    let nextStep = isRight ? 1 : -1;
-    let next = dotEls[globalIndex + nextStep];
-
-    if (globalIndex === (slidesArrayLength - 1)) {
-        next = dotEls[0];
-    }
-    console.log(globalIndex)
-    if (globalIndex === 0) {
-        next = dotEls[slidesArrayLength - 1];
-    }
-
-    current.classList.remove('addDotBgColor');
-    next.classList.add('addDotBgColor');
+function changeDotColor(prevIndex) {
+    dotEls[prevIndex].classList.remove('addDotBgColor');
+    dotEls[globalIndex].classList.add('addDotBgColor');
 }
 
 function onButtonClick(e) {
     const directionAttributeValue = JSON.parse(e.currentTarget.getAttribute('data-direction'));
+
     let nextStep = directionAttributeValue ? 1 : -1;
     let prevIndex = globalIndex;
-
+    
     globalIndex = globalIndex + nextStep;
-
+    
     if (globalIndex > (slidesArrayLength - 1)) {
         globalIndex = 0;
     }
-
+    
     if (globalIndex < 0) {
         globalIndex = slidesArrayLength - 1;
     }
-
+    
     moveSlides(prevIndex);
-    // changeDotColor(directionAttributeValue);
+    changeSliderNumbers();
+    changeDotColor(prevIndex);
 }
 
 function moveSlides(prevIndex) {
-    itemArr[globalIndex].classList.add('isActiveSlide')
-    itemArr[prevIndex].classList.remove('isActiveSlide')
+    itemArr[globalIndex].classList.add('isActiveSlide');
+    itemArr[prevIndex].classList.remove('isActiveSlide');
+}
+
+function onArrowKeyPress(e) {
+    if (e.code === 'ArrowRight') {
+        nextButtonEl.click();
+    }
+    
+    if (e.code === 'ArrowLeft') {
+        prevButtonEl.click();
+    }
 }
