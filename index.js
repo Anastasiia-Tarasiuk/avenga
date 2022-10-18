@@ -70,7 +70,7 @@ function onButtonClick(e) {
     
     globalIndex = globalIndex + nextStep;
 
-    // check if globalIndex stays in possible range
+    // checks if globalIndex stays in possible range
     if (globalIndex > (slidesArrayLength - 1)) {
         globalIndex = 0;
     }
