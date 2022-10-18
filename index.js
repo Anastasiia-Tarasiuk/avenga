@@ -7,6 +7,8 @@ const dotContainerEl = document.querySelector('.dots-container');
 
 nextButtonEl.addEventListener('click', onButtonClick);
 prevButtonEl.addEventListener('click', onButtonClick);
+nextButtonEl.addEventListener('dblclick', disableDoubleClickOnButton);
+prevButtonEl.addEventListener('dblclick', disableDoubleClickOnButton);
 dotContainerEl.addEventListener('click', onDotClick);
 document.addEventListener('keydown', onArrowKeyPress);
 
@@ -26,12 +28,12 @@ itemArr[globalIndex].classList.add('isActiveSlide');
 function onDotClick(e) {
     const chosenDot = e.target;
     const indexOfChosenDot = [...chosenDot.parentElement.children].indexOf(chosenDot);
+    const current = itemArr[globalIndex];
+    let next = itemArr[indexOfChosenDot];
     
     dotEls[globalIndex].classList.remove('addDotBgColor');
     
-    const current = itemArr[globalIndex];
     globalIndex = indexOfChosenDot;
-    let next = itemArr[indexOfChosenDot];
     
     if (current !== next) {
         next.classList.add('isActiveSlide');
@@ -63,7 +65,6 @@ function changeDotColor(prevIndex) {
 
 function onButtonClick(e) {
     const directionAttributeValue = JSON.parse(e.currentTarget.getAttribute('data-direction'));
-
     let nextStep = directionAttributeValue ? 1 : -1;
     let prevIndex = globalIndex;
     
@@ -95,4 +96,9 @@ function onArrowKeyPress(e) {
     if (e.code === 'ArrowLeft') {
         prevButtonEl.click();
     }
+}
+
+
+function disableDoubleClickOnButton(e) {
+    e.stopPropagation();
 }
