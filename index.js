@@ -1,7 +1,6 @@
 const slideEls = document.querySelectorAll('.slide-item');
 const nextButtonEl = document.querySelector('.next');
 const prevButtonEl = document.querySelector('.prev');
-const slideListEl = document.querySelector('.slide-list');
 const slideNumberEls = document.querySelectorAll('.slide-number');
 const dotContainerEl = document.querySelector('.dots-container');
 
