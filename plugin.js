@@ -6,6 +6,7 @@ function SlidePlugin(options) {
         imageText: [],
         imageCaption: [],
         isDotsContainerShown: true,
+        buttonContent: '=>'
     }
 
     options = { ...defaultOptions, ...options };
@@ -14,7 +15,7 @@ function SlidePlugin(options) {
     let globalIndex = 0;
     const slidesArrayLength = options.imagePath.length;
 
-    // sets default value for imageText if its length is shorter than is needed
+    // sets default value for imageText if its length is shorter than is needed for imagePath array
     if (options.imageText.length < slidesArrayLength) {
 
         for (let i = 0; i < slidesArrayLength; i += 1) {
@@ -24,7 +25,7 @@ function SlidePlugin(options) {
         }
     }
 
-    // sets default value for imageCaption if its length is shorter than is needed
+    // sets default value for imageCaption if its length is shorter than is needed for imagePath array
     if (options.imageCaption.length < slidesArrayLength) {
 
         for (let i = 0; i < slidesArrayLength; i += 1) {
@@ -45,10 +46,15 @@ function SlidePlugin(options) {
         imageContainer.classList.add("image-container");
         
         const slideImage = document.createElement("img");
-        slideImage.setAttribute("src", options.imagePath[index]);
-        slideImage.setAttribute("alt", options.imageText[index]);
+
+        // ?????????????????????????????
+        if (index <= slidesArrayLength) {
+            slideImage.setAttribute("src", options.imagePath[index]);
+            slideImage.setAttribute("alt", options.imageText[index]);
+        }
+
         slideImage.classList.add("slide-image");
-        
+
         const slideNumber = document.createElement("span");
         slideNumber.classList.add("slide-number");
         
@@ -72,7 +78,7 @@ function SlidePlugin(options) {
     
     const slidesArray = [...document.querySelectorAll('.slide-item')];
 
-    // does't add a slides 'is-active-slide' class if nothing set to imagePath option
+    // does't add to slides 'is-active-slide' class if nothing set to imagePath option
     if (slidesArrayLength > 0) {
         slidesArray[globalIndex].classList.add('is-active-slide'); 
     }
@@ -188,16 +194,15 @@ function SlidePlugin(options) {
         dotEls[globalIndex].classList.add('add-dot-bg-color');
         _this.changeSliderNumbers();
     }
-
     
     this.onArrowKeyPress = function(e) {
         // checks if arrow key was pressed and invokes button events
         if (e.code === 'ArrowRight') {
-            document.querySelector(options.nextButton).click();
+            document.querySelector('.next').click();
         }
         
         if (e.code === 'ArrowLeft') {
-            document.querySelector(options.prevButton).click();
+            document.querySelector('.prev').click();
         }
     }
 
@@ -219,3 +224,4 @@ function SlidePlugin(options) {
     document.addEventListener('keydown', _this.onArrowKeyPress);
     this.changeSliderNumbers();
 }
+
