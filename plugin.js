@@ -6,7 +6,6 @@ function SlidePlugin(options) {
         imageText: [],
         imageCaption: [],
         isDotsContainerShown: true,
-        buttonContent: '=>'
     }
 
     options = { ...defaultOptions, ...options };
