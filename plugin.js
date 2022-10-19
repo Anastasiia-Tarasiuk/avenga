@@ -11,19 +11,6 @@ function SlidePlugin(options) {
     // default values  
     let globalIndex = 0;
     const slidesArrayLength = options.slides.length;
-    const imagePathArray = [];
-    const imageTextArray = [];
-    const imageCaptionArray = [];
-  
-    this.getDataToArray = function(slidesArray, data, array) {
-        slidesArray.map(slide => {
-            array.push(slide[data]);
-        })
-    }
-    
-    this.getDataToArray(options.slides, "imagePath", imagePathArray);
-    this.getDataToArray(options.slides, "imageText", imageTextArray);
-    this.getDataToArray(options.slides, "imageCaption", imageCaptionArray);
     
     this.renderSlide = function(index) {
         const slidesContainer = document.querySelector(options.slidesContainer); 
@@ -39,8 +26,8 @@ function SlidePlugin(options) {
 
         // ?????????????????????????????
         if (index <= slidesArrayLength) {
-            slideImage.setAttribute("src", imagePathArray[index]);
-            slideImage.setAttribute("alt", imageTextArray[index]);
+            slideImage.setAttribute("src", options.slides[index].imagePath);
+            slideImage.setAttribute("alt", options.slides[index].imageTextArray);
         }
 
         slideImage.classList.add("slide-image");
@@ -49,9 +36,13 @@ function SlidePlugin(options) {
         slideNumber.classList.add("slide-number");
         
         const slideCaption = document.createElement("p");
-        slideCaption.classList.add("slide-caption");
-        slideCaption.textContent = imageCaptionArray[index];
-        
+        slideCaption.classList.add("slide-caption"); 2
+
+        // ?????????????????????????????
+        if (index <= slidesArrayLength) {
+            slideCaption.textContent = options.slides[index].imageCaption;
+        }
+
         imageContainer.appendChild(slideImage);
         imageContainer.appendChild(slideNumber);
         imageContainer.appendChild(slideCaption);
