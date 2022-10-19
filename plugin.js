@@ -1,36 +1,40 @@
 function SlidePlugin(options) {
     const defaultOptions = {
         container: ".container",
-        slidesContainer: ".slide-list",
         slides: [],
         isDotsContainerShown: true,
     }
 
     options = { ...defaultOptions, ...options };
     
+    if (options.container[0] !== '.') {
+        options.container = "." + options.container;
+    }
+
     // default values  
     const slidesArrayLength = options.slides.length;
+    const mainContainer = document.querySelector(options.container);
     const _this = this;
     let globalIndex = 0;
     let dotEls = null;
     
-    this.renderSlide = function(index) {
-        const slidesContainer = document.querySelector(options.slidesContainer); 
+    this.renderSlide = function (index) {
+        const slidesList = document.createElement('ul');
+        slidesList.classList.add("slide-list");
+
+        mainContainer.appendChild(slidesList);
         
         const slideItem  = document.createElement("li");
         slideItem.classList.add("slide-item", "animation");
-        slidesContainer.appendChild(slideItem);
+        slidesList.appendChild(slideItem);
         
         const imageContainer = document.createElement("div");
         imageContainer.classList.add("image-container");
         
         const slideImage = document.createElement("img");
 
-        // ?????????????????????????????
-        if (index <= slidesArrayLength) {
-            slideImage.setAttribute("src", options.slides[index].imagePath);
-            slideImage.setAttribute("alt", options.slides[index].imageTextArray);
-        }
+        slideImage.setAttribute("src", options.slides[index].imagePath);
+        slideImage.setAttribute("alt", options.slides[index].imageTextArray);
  
         slideImage.classList.add("slide-image");
 
@@ -40,10 +44,7 @@ function SlidePlugin(options) {
         const slideCaption = document.createElement("p");
         slideCaption.classList.add("slide-caption"); 2
 
-        // ?????????????????????????????
-        if (index <= slidesArrayLength) {
-            slideCaption.textContent = options.slides[index].imageCaption;
-        }
+        slideCaption.textContent = options.slides[index].imageCaption;
 
         imageContainer.appendChild(slideImage);
         imageContainer.appendChild(slideNumber);
@@ -53,9 +54,9 @@ function SlidePlugin(options) {
     }
     
     // does't render slides if nothing set to imagePath option
-    if (slidesArrayLength > 0) {
-        for (let i = 0; i < slidesArrayLength; i += 1) {
-            this.renderSlide(i);
+    if (options.slides.length > 0) {
+        for (let i = 0; i < options.slides.length; i++) {
+             this.renderSlide(i);
         }
     }
     
@@ -68,7 +69,7 @@ function SlidePlugin(options) {
     }
 
     this.prepareControls = function () {
-        const mainContainer = document.querySelector(options.container);
+
         const nextButton = document.createElement("button");
         const prevButton = document.createElement("button"); 
 
@@ -196,7 +197,6 @@ function SlidePlugin(options) {
 
     // default values   
     this.prepareControls();
-    this.renderSlide()
 
     if (options.isDotsContainerShown && slidesArrayLength > 0) {
         this.renderDots(slidesArray);

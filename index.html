@@ -12,17 +12,14 @@
     <link rel="icon" type="image/x-icon" href="./images/favicon.com.png">
 </head>
 <body>
-    <div class="container">
-        <div class="slider-container">
-            <ul class="slide-list"></ul>
-        </div>
-    </div>
+    <div class="test"></div>
     <script src="./plugin.js"></script>
     <script type="module">
         import data from './sliderItems.json' assert { type: "json" };
         const { slides } = data;
         const slider = new SlidePlugin({
             slides,
+            container: '.test'
         })
     </script>
 </body>
