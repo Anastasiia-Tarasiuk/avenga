@@ -2,37 +2,28 @@ function SlidePlugin(options) {
     const defaultOptions = {
         container: ".container",
         slidesContainer: ".slide-list",
-        imagePath: [],
-        imageText: [],
-        imageCaption: [],
+        slides: [],
         isDotsContainerShown: true,
     }
 
     options = { ...defaultOptions, ...options };
-
+    
     // default values  
     let globalIndex = 0;
-    const slidesArrayLength = options.imagePath.length;
-
-    // sets default value for imageText if its length is shorter than is needed for imagePath array
-    if (options.imageText.length < slidesArrayLength) {
-
-        for (let i = 0; i < slidesArrayLength; i += 1) {
-            if (!options.imageText[i]) {
-                options.imageText.push("default text");
-            }
-        }
+    const slidesArrayLength = options.slides.length;
+    const imagePathArray = [];
+    const imageTextArray = [];
+    const imageCaptionArray = [];
+  
+    this.getDataToArray = function(slidesArray, data, array) {
+        slidesArray.map(slide => {
+            array.push(slide[data]);
+        })
     }
-
-    // sets default value for imageCaption if its length is shorter than is needed for imagePath array
-    if (options.imageCaption.length < slidesArrayLength) {
-
-        for (let i = 0; i < slidesArrayLength; i += 1) {
-            if (!options.imageCaption[i]) {
-                options.imageCaption.push("default caption");
-            }
-        }
-    }
+    
+    this.getDataToArray(options.slides, "imagePath", imagePathArray);
+    this.getDataToArray(options.slides, "imageText", imageTextArray);
+    this.getDataToArray(options.slides, "imageCaption", imageCaptionArray);
     
     this.renderSlide = function(index) {
         const slidesContainer = document.querySelector(options.slidesContainer); 
@@ -48,8 +39,8 @@ function SlidePlugin(options) {
 
         // ?????????????????????????????
         if (index <= slidesArrayLength) {
-            slideImage.setAttribute("src", options.imagePath[index]);
-            slideImage.setAttribute("alt", options.imageText[index]);
+            slideImage.setAttribute("src", imagePathArray[index]);
+            slideImage.setAttribute("alt", imageTextArray[index]);
         }
 
         slideImage.classList.add("slide-image");
@@ -59,7 +50,7 @@ function SlidePlugin(options) {
         
         const slideCaption = document.createElement("p");
         slideCaption.classList.add("slide-caption");
-        slideCaption.textContent = options.imageCaption[index];
+        slideCaption.textContent = imageCaptionArray[index];
         
         imageContainer.appendChild(slideImage);
         imageContainer.appendChild(slideNumber);
@@ -125,9 +116,11 @@ function SlidePlugin(options) {
         prevButton.addEventListener('dblclick', _this.disableDoubleClickOnButton);
     }
 
-    this.moveSlides = function(prevIndex) {
-        slidesArray[globalIndex].classList.add('is-active-slide');
-        slidesArray[prevIndex].classList.remove('is-active-slide');
+    this.moveSlides = function (prevIndex) {
+        if (slidesArrayLength > 0) {
+            slidesArray[globalIndex].classList.add('is-active-slide');
+            slidesArray[prevIndex].classList.remove('is-active-slide');
+        }
     }
 
     this.renderDots = function (arr) {
@@ -149,8 +142,10 @@ function SlidePlugin(options) {
 
     this.changeDotColor = function(prevIndex) {
         dotEls = document.querySelectorAll('.dot');
-        dotEls[prevIndex].classList.remove('add-dot-bg-color');
-        dotEls[globalIndex].classList.add('add-dot-bg-color');
+        if (slidesArrayLength > 0) {
+            dotEls[prevIndex].classList.remove('add-dot-bg-color');
+            dotEls[globalIndex].classList.add('add-dot-bg-color');
+        }
     }
 
     this.onButtonClick = function(e) {

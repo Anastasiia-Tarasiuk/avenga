@@ -18,12 +18,11 @@
         </div>
     </div>
     <script src="./plugin.js"></script>
-    <script src="./mapJson.js" type="module"></script>
-    <script>
+    <script type="module">
+        import data from './sliderItems.json' assert { type: "json" };
+        const { slides } = data;
         const slider = new SlidePlugin({
-            imagePath: ["./images/angry-cat-one.jpg", "./images/angry-cat-two.jpg", "./images/angry-cat-three.jpg", "./images/angry-cat-four.jpg", "./images/angry-cat-five.jpg"],
-            imageText: ["Angry cat", "Angry cat", "Angry cat", "Angry cat", "Angry cat"],
-            imageCaption: ["Cat Tomas", "Cat Angel", "Cat Boris", "Cat Bob", "Cat Paris"],
+            slides,
         })
     </script>
 </body>
