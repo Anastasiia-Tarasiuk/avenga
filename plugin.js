@@ -1,18 +1,18 @@
 function SlidePlugin(options) {
     const defaultOptions = {
-        container: ".container",
+        sliderContainerClass: ".container",
         slides: [],
         isDotsContainerShown: true,
     }
 
     options = { ...defaultOptions, ...options };
     
-    if (options.container[0] !== ".") {
-        options.container = "." + options.container;
+    if (options.sliderContainerClass[0] !== ".") {
+        options.sliderContainerClass = "." + options.sliderContainerClass;
     }
 
     // default values  
-    const mainContainer = document.querySelector(options.container);
+    const mainContainer = document.querySelector(options.sliderContainerClass);
     const _this = this;
     let globalIndex = 0;
     let dotEls = null;
@@ -68,7 +68,6 @@ function SlidePlugin(options) {
     }
 
     this.prepareControls = function () {
-
         const nextButton = document.createElement("button");
         const prevButton = document.createElement("button"); 
 
@@ -169,7 +168,7 @@ function SlidePlugin(options) {
         
         globalIndex = indexOfChosenDot;
         
-        //doesn't allow switch classes on the same dot
+        //doesn't allow switch classes by click on the same dot
         if (current !== next) {
             next.classList.add("is-active-slide");
             current.classList.remove("is-active-slide");

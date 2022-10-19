@@ -18,7 +18,9 @@
         import data from './sliderItems.json' assert { type: "json" };
         const { slides } = data;
         const slider = new SlidePlugin({
-            slides
+            slides,
+            sliderContainerClass: ".container",
+            isDotsContainerShown: true,
         })
     </script>
 </body>
