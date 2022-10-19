@@ -9,8 +9,10 @@ function SlidePlugin(options) {
     options = { ...defaultOptions, ...options };
     
     // default values  
-    let globalIndex = 0;
     const slidesArrayLength = options.slides.length;
+    const _this = this;
+    let globalIndex = 0;
+    let dotEls = null;
     
     this.renderSlide = function(index) {
         const slidesContainer = document.querySelector(options.slidesContainer); 
@@ -29,7 +31,7 @@ function SlidePlugin(options) {
             slideImage.setAttribute("src", options.slides[index].imagePath);
             slideImage.setAttribute("alt", options.slides[index].imageTextArray);
         }
-
+ 
         slideImage.classList.add("slide-image");
 
         const slideNumber = document.createElement("span");
@@ -58,15 +60,12 @@ function SlidePlugin(options) {
     }
     
     const slidesArray = [...document.querySelectorAll('.slide-item')];
+    const slideNumberEls = document.querySelectorAll('.slide-number');  
 
     // does't add to slides 'is-active-slide' class if nothing set to imagePath option
     if (slidesArrayLength > 0) {
         slidesArray[globalIndex].classList.add('is-active-slide'); 
     }
-    
-    const _this = this;
-    const slideNumberEls = document.querySelectorAll('.slide-number');  
-    let dotEls = null;
 
     this.prepareControls = function () {
         const mainContainer = document.querySelector(options.container);
